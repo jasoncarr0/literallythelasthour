@@ -47,11 +47,22 @@ res_hist = []
 out_idx = np.random.randint(0,len(w),out_size)
 trajectory_data = []
 """
+model = Sequential()
+model.add(Dense(64, input_dim=100000))
+#model.add(Activation('tanh'))
+model.add(Dense(3))
+model.compile(optimizer='rmsprop',
+  loss='categorical_crossentropy',
+  metrics=['accuracy'])
 
+samples = list(map(lambda s: s[0:100000], samples))
+samples = np.column_stack(samples).T
 
-for sample in samples:
-    
-    """
+labels = to_categorical([1, 2])
+
+model.fit(np.asarray(samples), labels, nb_epoch=10)
+
+"""
     print(len(sample))
     act = np.zeros(r_size)
     out = np.zeros(out_size)
