@@ -17,7 +17,7 @@ from keras.utils.np_utils import to_categorical
 
 
 
-pathes = ['en01.wav', 'de01.wav']
+pathes = ['en01.wav', 'de01.wav', 'en02.wav', 'de02.wav']
 #pathes = ['en01.wav']
 #pathes = ['de01.wav']
           
@@ -49,7 +49,10 @@ trajectory_data = []
 """
 model = Sequential()
 model.add(Dense(64, input_dim=100000))
-#model.add(Activation('tanh'))
+model.add(Activation('tanh'))
+model.add(Dropout(0.5))
+model.add(Dense(64, input_dim=100000))
+model.add(Activation('tanh'))
 model.add(Dense(3))
 model.compile(optimizer='rmsprop',
   loss='categorical_crossentropy',
@@ -58,7 +61,11 @@ model.compile(optimizer='rmsprop',
 samples = list(map(lambda s: s[0:100000], samples))
 samples = np.column_stack(samples).T
 
-labels = to_categorical([1, 2])
+labels = to_categorical([1, 2, 1, 2])
+
+#pairs = [lambda (l, s):
+#            l 
+#        for (l, s) in zip(labels, samples)]
 
 model.fit(np.asarray(samples), labels, nb_epoch=10)
 
