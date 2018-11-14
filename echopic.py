@@ -15,12 +15,10 @@ from keras.models import Sequential
 from keras.layers import Activation, Dense, Dropout
 from keras.utils.np_utils import to_categorical
 
-
-
 pathes = ['en01.wav', 'de01.wav', 'en02.wav', 'de02.wav']
 #pathes = ['en01.wav']
 #pathes = ['de01.wav']
-          
+
 samples = []
 samplerates = []
 
@@ -28,9 +26,7 @@ for path in pathes:
     audio = siw.read(path)
     samples.append(audio[1])
     samplerates.append(audio[0])
-    samples[-1] = np.divide(samples[-1],max(abs(samples[-1])))
-
-
+    samples[-1] = np.divide(samples[-1], max(abs(samples[-1])))
 """ 
 commenting out stuff for his learning
 
@@ -54,9 +50,8 @@ model.add(Dropout(0.5))
 model.add(Dense(64, input_dim=100000))
 model.add(Activation('tanh'))
 model.add(Dense(3))
-model.compile(optimizer='rmsprop',
-  loss='categorical_crossentropy',
-  metrics=['accuracy'])
+model.compile(
+    optimizer='rmsprop', loss='categorical_crossentropy', metrics=['accuracy'])
 
 samples = list(map(lambda s: s[0:100000], samples))
 samples = np.column_stack(samples).T
@@ -64,11 +59,10 @@ samples = np.column_stack(samples).T
 labels = to_categorical([1, 2, 1, 2])
 
 #pairs = [lambda (l, s):
-#            l 
+#            l
 #        for (l, s) in zip(labels, samples)]
 
 model.fit(np.asarray(samples), labels, nb_epoch=10)
-
 """
     print(len(sample))
     act = np.zeros(r_size)
